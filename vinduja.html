@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="repeatable-container">
+        
+    </div>
+    <button id="repeatDivButton">+</button>
+
+    <script>
+    let divCount = 0;
+
+    function repeatDiv() {
+        // Create a new div element
+        const newDiv = document.createElement("div");
+        newDiv.className = "repeatable-div"; // Assign the same class name as the original div
+        newDiv.innerHTML = `
+        <div class="column-container">
+            <div class="form-group">
+                <input type="text" id="course" name="course[]" placeholder="course">&nbsp;&nbsp;
+                <select id="university" name="university[]">
+                    <option value="">select university</option>
+                    @foreach ($data as $datas)
+                    <option value="{{ $datas->university }}">{{ $datas->university }}</option>
+                    @endforeach
+                </select>
+                <input type="text" id="year" name="year[]" placeholder="year">
+                <button class="remove-input" onclick="removeDiv(this)">-</button>
+            </div>
+        </div>
+        `;
+        
+        // Append the new div to the container
+        document.getElementById("repeatable-container").appendChild(newDiv);
+
+        // Increment the div count
+        divCount++;
+    }
+
+    function removeDiv(button) {
+        // Find the parent div and remove it from the DOM
+        const parentDiv = button.parentNode.parentNode;
+        parentDiv.parentNode.removeChild(parentDiv);
+        
+        // Decrement the div count
+        divCount--;
+    }
+
+    // Add a click event listener to the "Repeat Div" button
+    document.getElementById("repeatDivButton").addEventListener("click", repeatDiv);
+    </script>
+</body>
+</html>
